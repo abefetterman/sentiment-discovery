@@ -7,7 +7,7 @@ import numpy as np
 from sklearn.linear_model import LogisticRegression
 
 from sentiment_discovery.model import run_model
-
+from tqdm import tqdm
 
 def transform(model, text, batch_size, persist_state=False):
 	"""
@@ -70,8 +70,9 @@ def train_sklearn_logreg(trX, trY, vaX=None, vaY=None, teX=None, teY=None, penal
 	if not isinstance(C, collections.Iterable):
 		C = list([C])
 	scores = []
+	print('fitting models')
 	if model is None:
-		for i, c in enumerate(C):
+		for i, c in enumerate(tqdm(C)):
 			model = LogisticRegression(C=c, penalty=penalty, random_state=seed+i, max_iter=max_iter, solver=solver)
 			model.fit(trX, trY)
 			if vaX is not None:

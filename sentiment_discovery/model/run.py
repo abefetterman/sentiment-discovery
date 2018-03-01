@@ -1,8 +1,10 @@
 from torch.autograd import Variable
 
+from tqdm import tqdm
+
 def run_model(model, data_iter, data_fn):
 	"""runs a model over a given dataset"""
-	for data in data_iter:
+	for data in tqdm(data_iter):
 		data_dict = data_fn(data)
 		#if model is on gpu, but not vanilla data parallel
 		if model.using_cuda and not (model.data_parallel and not model.distributed):
